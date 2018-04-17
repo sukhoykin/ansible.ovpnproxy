@@ -43,8 +43,14 @@
     chdir: "{{ovpn_pkidir}}"
     creates: "{{ovpn_pkidir}}/ta.key"
 
- - name: Build Client Certificate
+- name: Configure Server
+  template: src=server.conf.j2 dest={{ovpn_etcdir}}/server.conf
+  notify: ['openvpn restart']
+
+- name: Enable OpenVPN server
+  service: name=openvpn@server state=started enabled=yes
+
+- name: Build Client Certificate
   command: "{{ovpn_easyrsa}} build-client-full client nopass"
   args: { creates: "{{ovpn_pkidir}}/private/client.key" }
-
  

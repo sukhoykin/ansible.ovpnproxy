@@ -75,21 +75,21 @@ dev tun
 # Any X509 key management system can be used.
 # OpenVPN can also use a PKCS #12 formatted key file
 # (see "pkcs12" directive in man page).
-ca ca.crt
-cert server.crt
-key server.key  # This file should be kept secret
+ca {{ovpn_pkidir}}/ca.crt
+cert {{ovpn_pkidir}}/issued/server.crt
+key {{ovpn_pkidir}}/private/server.key  # This file should be kept secret
 
 # Diffie hellman parameters.
 # Generate your own with:
 #   openssl dhparam -out dh2048.pem 2048
-dh dh2048.pem
+dh {{ovpn_pkidir}}/dh.pem
 
 # Network topology
 # Should be subnet (addressing via IP)
 # unless Windows clients v2.0.9 and lower have to
 # be supported (then net30, i.e. a /30 per client)
 # Defaults to net30 (not recommended)
-;topology subnet
+topology subnet
 
 # Configure server mode and supply a VPN subnet
 # for OpenVPN to draw client addresses from.
@@ -98,7 +98,7 @@ dh dh2048.pem
 # Each client will be able to reach the server
 # on 10.8.0.1. Comment this line out if you are
 # ethernet bridging. See the man page for more info.
-server 10.8.0.0 255.255.255.0
+server {{ovpn_server}}
 
 # Maintain a record of client <-> virtual IP address
 # associations in this file.  If OpenVPN goes down or
@@ -219,7 +219,7 @@ ifconfig-pool-persist ipp.txt
 # CERTIFICATE/KEY PAIRS FOR EACH CLIENT,
 # EACH HAVING ITS OWN UNIQUE "COMMON NAME",
 # UNCOMMENT THIS LINE OUT.
-;duplicate-cn
+duplicate-cn
 
 # The keepalive directive causes ping-like
 # messages to be sent back and forth over
@@ -241,7 +241,7 @@ keepalive 10 120
 # a copy of this key.
 # The second parameter should be '0'
 # on the server and '1' on the clients.
-tls-auth ta.key 0 # This file is secret
+tls-auth {{ovpn_pkidir}}/ta.key 0 # This file is secret
 
 # Select a cryptographic cipher.
 # This config item must be copied to
@@ -260,7 +260,7 @@ cipher AES-256-CBC
 # For compression compatible with older clients use comp-lzo
 # If you enable it here, you must also
 # enable it in the client config file.
-;comp-lzo
+comp-lzo
 
 # The maximum number of concurrently connected
 # clients we want to allow.
