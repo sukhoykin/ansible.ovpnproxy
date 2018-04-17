@@ -1,0 +1,50 @@
+---
+
+- name: Check TUN device
+  stat: path=/dev/net/tun
+  register: tun_stat
+- fail:
+    msg: TUN device module (/dev/net/tun) is not available
+  when: tun_stat.stat.exists == False or tun_stat.stat.readable == False
+
+- name: Install EPEL repository
+  yum: name=epel-release
+
+- name: Install packages
+  yum: name={{item}}
+  with_items: [openvpn, openssl, easy-rsa]
+
+- name: Prepare EasyRSA 3
+  command: cp -r /usr/share/easy-rsa/3/ {{ovpn_easyrsa_dir}}
+  args: { creates: "{{ovpn_easyrsa_dir}}" }
+
+- name: Generate EasyRSA vars
+  template: src=vars.j2 dest={{ovpn_easyrsa_dir}}/vars
+
+- name: Intialize PKI
+  command: "{{ovpn_easyrsa}} init-pki"
+  args: { creates: "{{ovpn_pkidir}}" }
+
+- name: Build CA
+  command: "{{ovpn_easyrsa}} --batch build-ca nopass"
+  args: { creates: "{{ovpn_pkidir}}/private/ca.key" }
+
+- name: Build Server Certificate
+  command: "{{ovpn_easyrsa}} build-server-full server nopass"
+  args: { creates: "{{ovpn_pkidir}}/private/server.key" }
+
+- name: Generate Diffie-Hellman parameters
+  command: "{{ovpn_easyrsa}} gen-dh"
+  args: { creates: "{{ovpn_pkidir}}/dh.pem" }
+
+- name: Generate HMAC firewall key
+  command: openvpn --genkey --secret ta.key
+  args:
+    chdir: "{{ovpn_pkidir}}"
+    creates: "{{ovpn_pkidir}}/ta.key"
+
+ - name: Build Client Certificate
+  command: "{{ovpn_easyrsa}} build-client-full client nopass"
+  args: { creates: "{{ovpn_pkidir}}/private/client.key" }
+
+ 
