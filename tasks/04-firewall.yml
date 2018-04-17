@@ -1,0 +1,8 @@
+---
+
+- name: Add service to firewall
+  firewalld:
+    service: openvpn
+    permanent: true
+    state: enabled
+  notify: firewald reload

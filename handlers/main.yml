@@ -2,3 +2,6 @@
 
 - name: openvpn restart
   service: name=openvpn@server state=restarted
+
+- name: firewald reload
+  command: firewall-cmd --reload

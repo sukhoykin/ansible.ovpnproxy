@@ -14,43 +14,7 @@
   yum: name={{item}}
   with_items: [openvpn, openssl, easy-rsa]
 
-- name: Prepare EasyRSA 3
-  command: cp -r /usr/share/easy-rsa/3/ {{ovpn_easyrsa_dir}}
-  args: { creates: "{{ovpn_easyrsa_dir}}" }
-
-- name: Generate EasyRSA vars
-  template: src=vars.j2 dest={{ovpn_easyrsa_dir}}/vars
-
-- name: Intialize PKI
-  command: "{{ovpn_easyrsa}} init-pki"
-  args: { creates: "{{ovpn_pkidir}}" }
-
-- name: Build CA
-  command: "{{ovpn_easyrsa}} --batch build-ca nopass"
-  args: { creates: "{{ovpn_pkidir}}/private/ca.key" }
-
-- name: Build Server Certificate
-  command: "{{ovpn_easyrsa}} build-server-full server nopass"
-  args: { creates: "{{ovpn_pkidir}}/private/server.key" }
-
-- name: Generate Diffie-Hellman parameters
-  command: "{{ovpn_easyrsa}} gen-dh"
-  args: { creates: "{{ovpn_pkidir}}/dh.pem" }
-
-- name: Generate HMAC firewall key
-  command: openvpn --genkey --secret ta.key
-  args:
-    chdir: "{{ovpn_pkidir}}"
-    creates: "{{ovpn_pkidir}}/ta.key"
-
-- name: Configure Server
-  template: src=server.conf.j2 dest={{ovpn_etcdir}}/server.conf
-  notify: ['openvpn restart']
-
-- name: Enable OpenVPN server
-  service: name=openvpn@server state=started enabled=yes
-
-- name: Build Client Certificate
-  command: "{{ovpn_easyrsa}} build-client-full client nopass"
-  args: { creates: "{{ovpn_pkidir}}/private/client.key" }
- 
+- include: 01-pki.yml
+- include: 02-server.yml
+- include: 03-client.yml
+- include: 04-firewall.yml

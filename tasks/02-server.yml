@@ -1,0 +1,11 @@
+---
+
+- name: Configure Server
+  template: src=server.conf.j2 dest={{ovpn_etcdir}}/server.conf
+  notify: ['openvpn restart']
+
+- name: Enable OpenVPN server
+  service: name=openvpn@server state=started enabled=yes
+
+
+ 
