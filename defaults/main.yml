@@ -1,5 +1,10 @@
 ---
 
+ovpn_host: "{{inventory_hostname}}"
+ovpn_port: 1194
+ovpn_proto: udp
+ovpn_subnet: 10.8.0.0 255.255.255.0
+
 ovpn_req_cn:  "example.com"
 ovpn_req_country:  "US"
 ovpn_req_province: "California"
@@ -7,5 +12,3 @@ ovpn_req_city: "Beverly Hills"
 ovpn_req_org: "ACME CORPORATION"
 ovpn_req_email: "user@example.com"
 ovpn_req_ou: "Anvil Department"
-
-ovpn_server: 10.8.0.0 255.255.255.0

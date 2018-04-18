@@ -34,12 +34,12 @@ dev tun
 # UDP server?  Use the same setting as
 # on the server.
 ;proto tcp
-proto udp
+proto {{ovpn_proto}}
 
 # The hostname/IP and port of the server.
 # You can have multiple remote entries
 # to load balance between the servers.
-remote my-server-1 1194
+remote {{ovpn_host}} {{ovpn_port}}
 ;remote my-server-2 1194
 
 # Choose a random host from the remote
@@ -85,9 +85,21 @@ persist-tun
 # a separate .crt/.key file pair
 # for each client.  A single ca
 # file can be used for all clients.
-ca ca.crt
-cert client.crt
-key client.key
+;ca ca.crt
+;cert client.crt
+;key client.key
+
+<ca>
+{{ ovpn_server_ca_crt['content'] | b64decode | trim }}
+</ca>
+
+<cert>
+{{ ovpn_server_client_crt['content'] | b64decode | trim }}
+</cert>
+
+<key>
+{{ ovpn_server_client_key['content'] | b64decode | trim }}
+</key>
 
 # Verify server certificate by checking that the
 # certicate has the correct key usage set.
@@ -105,7 +117,13 @@ remote-cert-tls server
 
 # If a tls-auth key is used on the server
 # then every client must also have the key.
-tls-auth ta.key 1
+;tls-auth ta.key 1
+
+key-direction 1
+
+<tls-auth>
+{{ ovpn_server_ta_key['content'] | b64decode | trim }}
+</tls-auth>
 
 # Select a cryptographic cipher.
 # If the cipher option is used on the server
@@ -118,7 +136,7 @@ cipher AES-256-CBC
 # Enable compression on the VPN link.
 # Don't enable this unless it is also
 # enabled in the server config file.
-#comp-lzo
+comp-lzo
 
 # Set log file verbosity.
 verb 3

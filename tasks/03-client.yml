@@ -1,1 +1,37 @@
 ---
+
+- name: Build client certificate
+  command: "{{ovpn_easyrsa}} build-client-full client nopass"
+  args:
+    creates: "{{ovpn_pkidir}}/private/client.key"
+
+- name: Slurp CA certificate
+  slurp:
+    src: "{{ovpn_pkidir}}/ca.crt"
+  register: ovpn_server_ca_crt
+
+- name: Slurp client certificate
+  slurp:
+    src: "{{ovpn_pkidir}}/issued/client.crt"
+  register: ovpn_server_client_crt
+
+- name: Slurp client key
+  slurp:
+    src: "{{ovpn_pkidir}}/private/client.key"
+  register: ovpn_server_client_key
+
+- name: Slurp TA key
+  slurp:
+    src: "{{ovpn_pkidir}}/ta.key"
+  register: ovpn_server_ta_key
+
+- name: Configure client
+  template:
+    src: client.conf.j2
+    dest: "{{ovpn_etcdir}}/client.ovpn"
+
+- name: Fetch client config
+  fetch:
+    src: "{{ovpn_etcdir}}/client.ovpn"
+    dest: client.ovpn
+    flat: yes

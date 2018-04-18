@@ -1,6 +1,11 @@
 ---
 
-- name: Add service to firewall
+- name: Enable IP forwarding
+  sysctl:
+    name: net.ipv4.ip_forward
+    value: 1
+
+- name: Add service
   firewalld:
     service: openvpn
     permanent: true
