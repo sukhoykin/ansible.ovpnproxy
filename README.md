@@ -23,7 +23,7 @@ Clone role into your ansible playbook directory:
     cd ansible/roles
     git clone https://github.com/sukhoykin/ansible.ovpnproxy.git
 
-Add role to`main.yml` playbook file:
+Add role to `main.yml` playbook file:
 
 ```yaml
 
