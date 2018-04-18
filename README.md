@@ -2,7 +2,7 @@
 Ansible role to install OpenVPN on your VPS for certain list of prohibited IPs.
 
 ## Features
-* Install and configurate OpenVPN
+* Install and configure OpenVPN
 * Generate client configuration
 * Use Google DNS
 * Proxy traffic from defined IP list
@@ -58,4 +58,19 @@ Optionally you can set vars in your playbook file. Example with default vars:
     ovpn_req_org: "ACME CORPORATION"
     ovpn_req_email: "user@example.com"
     ovpn_req_ou: "Anvil Department"
+    ovpn_proxy_pool:
+      # rutracker
+      - 195.82.146.214 255.255.255.255
+      - 195.82.146.114 255.255.255.255
+      # telegram
+      - 149.154.167.99 255.255.255.255
+      - 149.154.167.118 255.255.255.255
+      - 149.154.160.0 255.255.240.0
+      - 149.154.164.0 255.255.252.0
+      - 91.108.4.0 255.255.252.0
+      - 91.108.56.0 255.255.252.0
+      - 91.108.8.0 255.255.252.0
+      - 149.154.168.0 255.255.252.0
+      - 91.108.16.0 255.255.252.0
+      - 91.108.56.0 255.255.254.0
 ```
