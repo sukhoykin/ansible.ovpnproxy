@@ -142,7 +142,9 @@ ifconfig-pool-persist ipp.txt
 ;push "route 192.168.20.0 255.255.255.0"
 push "route 8.8.8.8 255.255.255.255"
 push "route 8.8.4.4 255.255.255.255"
-push "route 149.154.167.99 255.255.255.255"
+{% for dest in ovpn_proxy_pool %}
+push "route {{dest}}"
+{% endfor %}
 
 # To assign specific IP addresses to specific
 # clients or if a connecting client has a private

@@ -1,28 +1,7 @@
 ---
 
-- name: Check TUN device
-  stat: path=/dev/net/tun
-  register: tun_stat
-- fail:
-    msg: TUN device module (/dev/net/tun) is not available
-  when: tun_stat.stat.exists == False or tun_stat.stat.readable == False
-
-- name: Install EPEL repository
-  yum:
-    name: epel-release
-
-- name: Install packages
-  yum:
-    name: "{{item}}"
-  with_items: [openvpn, openssl, easy-rsa, firewalld]
-
-- name: Ensure firewalld started
-  service:
-    name: firewalld
-    state: started
-    enabled: yes
-
-- include: 01-pki.yml
+#- include: 00-prepare.yml
+#- include: 01-pki.yml
 - include: 02-server.yml
-- include: 03-client.yml
-- include: 04-route.yml
+#- include: 03-client.yml
+#- include: 04-route.yml
