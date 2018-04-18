@@ -2,10 +2,13 @@
 
 - name: Build server certificate
   command: "{{ovpn_easyrsa}} build-server-full server nopass"
-  args: { creates: "{{ovpn_pkidir}}/private/server.key" }
+  args:
+    creates: "{{ovpn_pkidir}}/private/server.key"
 
 - name: Configure server
-  template: src=server.conf.j2 dest={{ovpn_etcdir}}/server.conf
+  template:
+    src: server.conf.j2
+    dest: "{{ovpn_etcdir}}/server.conf"
   notify: openvpn restart
 
 - name: Enable OpenVPN server

@@ -8,7 +8,7 @@
 - name: Generate EasyRSA vars
   template:
     src: vars.j2
-    dest: {{ovpn_easyrsa_dir}}/vars
+    dest: "{{ovpn_easyrsa_dir}}/vars"
 
 - name: Intialize PKI
   command: "{{ovpn_easyrsa}} init-pki"

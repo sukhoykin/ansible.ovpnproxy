@@ -5,9 +5,16 @@
     name: net.ipv4.ip_forward
     value: 1
 
-- name: Add service
+- name: Enable service
   firewalld:
     service: openvpn
+    permanent: true
+    state: enabled
+  notify: firewald reload
+
+- name: Enable masquerade
+  firewalld:
+    masquerade: yes
     permanent: true
     state: enabled
   notify: firewald reload

@@ -16,7 +16,7 @@
     name: "{{item}}"
   with_items: [openvpn, openssl, easy-rsa]
 
-#- include: 01-pki.yml
-#- include: 02-server.yml
+- include: 01-pki.yml
+- include: 02-server.yml
 - include: 03-client.yml
-#- include: 04-route.yml
+- include: 04-route.yml
