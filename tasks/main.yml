@@ -17,7 +17,10 @@
   with_items: [openvpn, openssl, easy-rsa, firewalld]
 
 - name: Ensure firewalld started
-  service: name=firewalld state=started enabled=yes
+  service:
+    name: firewalld
+    state: started
+    enabled: yes
 
 - include: 01-pki.yml
 - include: 02-server.yml

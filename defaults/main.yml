@@ -1,6 +1,5 @@
 ---
 
-ovpn_host: "{{inventory_hostname}}"
 ovpn_port: 1194
 ovpn_proto: udp
 ovpn_subnet: 10.8.0.0 255.255.255.0
