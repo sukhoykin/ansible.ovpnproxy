@@ -33,5 +33,5 @@
 - name: Fetch client config
   fetch:
     src: "{{ovpn_etcdir}}/client.ovpn"
-    dest: ~/"ovpnproxy-{{ansible_default_ipv4.address}}.ovpn"
+    dest: "~/ovpnproxy-{{ansible_default_ipv4.address}}.ovpn"
     flat: yes
