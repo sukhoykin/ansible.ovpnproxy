@@ -10,7 +10,7 @@ Ansible role to install OpenVPN on your VPS for certain list of prohibited IPs.
 ## Requirements
 * VPS in the appropriate location (country)
 * CentOS 7 distribution
-* TUN module enabled (in OpenVZ case)
+* Ensure TUN module enabled (in case of OpenVZ)
 
 ## Usage
 Create ansible playbook directory:
