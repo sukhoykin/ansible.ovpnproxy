@@ -1,7 +1,7 @@
 ---
 
-#- include: 00-prepare.yml
-#- include: 01-pki.yml
+- include: 00-prepare.yml
+- include: 01-pki.yml
 - include: 02-server.yml
-#- include: 03-client.yml
-#- include: 04-route.yml
+- include: 03-client.yml
+- include: 04-route.yml
