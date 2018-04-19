@@ -40,9 +40,10 @@ ansible-pull -U https://github.com/sukhoykin/ansible.ovpnproxy.git
 ```
 
 #### Setup client
-1. Copy (Ctrl+C) client config `ovpnproxy.ovpn` to `C:\Program Files (x86)\OpenVPN\config`.
-2. Run OpenVPN GUI.
-3. Connect to VPN (Right click on tray icon -> `ovpnproxy` -> Connect).
+1. Install [OpenVPN-client](https://openvpn.net/index.php/open-source/downloads.html).
+2. Copy (Ctrl+C) client config `ovpnproxy.ovpn` to `C:\Program Files (x86)\OpenVPN\config`.
+3. Run OpenVPN GUI.
+4. Connect to VPN (Right click on tray icon -> `ovpnproxy` -> Connect).
 
 ### Linux
 This guide cover CentOS 7 distribution. Other distributions have similar steps.
