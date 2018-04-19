@@ -76,9 +76,38 @@ $ sudo systemctl enable openvpn@ovpnproxy
 $ sudo systemctl start openvpn@ovpnproxy
 ```
 
-## Variables
-Optionally you can set vars in your playbook file. Example with default vars:
+## Customization
+1. Install Ansible and Git on remote control machine or VPS (if not installed yet):
+```
+# yum -y install epel-release
+# yum -y update
+# yum -y install ansible git
+```
+2. Clone repository:
+```
+$ git clone https://github.com/sukhoykin/ansible.ovpnproxy.git
+$ cd ansible.ovpnproxy
+```
+3. Edit `site.yml` (remote control) playbook or `local.yml` (local VPS control). You can override `vars` in playbook file:
+```yaml
+---
+- hosts: all
+  roles:
+  - ovpnproxy
+  vars:
+    # override vars here
+```
+4. Apply changes:
+* Run playbook remote:
+```
+$ ansible-playbook -i {vps-ip}, site.yml
+```
+* Run playbook local on VPS:
+```
+$ ansible-playbook local.yml
+```
 
+### OpenVPN settings
 ```yaml
 
   vars:
@@ -92,6 +121,12 @@ Optionally you can set vars in your playbook file. Example with default vars:
     ovpn_req_org: "ACME CORPORATION"
     ovpn_req_email: "user@example.com"
     ovpn_req_ou: "Anvil Department"
+```
+
+### Proxy IP list
+```yaml
+
+  vars:
     ovpn_proxy_pool:
       # rutracker
       - 195.82.146.214 255.255.255.255
