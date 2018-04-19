@@ -38,6 +38,7 @@ yum -y install ansible git
 ```
 ansible-pull -U https://github.com/sukhoykin/ansible.ovpnproxy.git
 ```
+4. Close terminal and refresh directory (F5), you will see client config `ovpnproxy.ovpn`.
 
 #### Setup client
 1. Install [OpenVPN-client](https://openvpn.net/index.php/open-source/downloads.html).
