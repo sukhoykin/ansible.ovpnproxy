@@ -6,46 +6,78 @@ Ansible role to install OpenVPN on your VPS for certain list of prohibited IPs.
 * Generate client configuration
 * Use Google DNS
 * Proxy traffic from defined IP list
+* Support Windows, Linux and MacOS
 
 ## Requirements
 * VPS in the appropriate location (country)
 * CentOS 7 distribution
+* Public `IP-address`
+* `Root` SSH-access to VPS
 * Ensure TUN module enabled (in case of OpenVZ)
 
-## Usage
-Create ansible playbook directory:
+## Quick start
+Assume you have proper VPS with public `IP-address` and `root` SSH-access (by password).
 
-    mkdir -p ansible/roles
-    touch ansible/main.yml
+### Windows
+1. Install [WinSCP](https://winscp.net/eng/download.php) SCP-client.
+2. Run WinSCP as `Administrator` (Right click -> Run as Administrator).
+3. Login to VPS:
+* Host Name: VPS `IP-address`
+* Login: `root`
+* Password: `root` password
 
-Clone role into your ansible playbook directory:
-
-    cd ansible/roles
-    git clone https://github.com/sukhoykin/ansible.ovpnproxy.git
-
-Add role to `main.yml` playbook file:
-
-```yaml
-
-- hosts: all
-  roles:
-  - ansible.ovpnproxy
+#### Setup server
+1. Open WinSCP terminal (Ctrl+T). Also you can use (PuTTY)[https://www.putty.org/] to execute commands instead WinSCP terminal.
+2. Install Ansible and Git on VPS (Enter command):
+```
+yum -y install epel-release
+yum -y update
+yum -y install ansible git
+```
+3. Configure server (Enter command and wait few minutes):
+```
+ansible-pull -U https://github.com/sukhoykin/ansible.ovpnproxy.git
 ```
 
-Run playbook:
+#### Setup client
+1. Copy (Ctrl+C) client config `ovpnproxy.ovpn` to `C:\Program Files (x86)\OpenVPN\config`.
+2. Run OpenVPN GUI.
+3. Connect to VPN (Right click on tray icon -> `ovpnproxy` -> Connect).
 
-    ansible-playbook -i <vps-ip>, main.yml
+### Linux
+This guide cover CentOS 7 distribution. Other distributions have similar steps.
+#### Setup server
+1. Login to VPS.
+2. Install Ansible and Git on VPS:
+```
+# yum -y install epel-release
+# yum -y update
+# yum -y install ansible git
+```
+3. Configure server:
+```
+# ansible-pull -U https://github.com/sukhoykin/ansible.ovpnproxy.git
+```
 
-Use client configuration file `<vps-ip>.ovpn` for access to VPN server.
+#### Setup client
+1. Install OpenVPN:
+```
+$ sudo yum -y install openvpn
+```
+2. Copy client config `ovpnproxy.ovpn` to `/etc/openvpn/` with rename:
+```
+$ sudo scp {vps-ip}:ovpnproxy.ovpn /etc/openvpn/ovpnproxy.conf
+```
+3. Start OpenVPN:
+```
+$ sudo systemctl enable openvpn@ovpnproxy
+$ sudo systemctl start openvpn@ovpnproxy
+```
 
 ## Variables
 Optionally you can set vars in your playbook file. Example with default vars:
 
 ```yaml
-
-- hosts: all
-  roles:
-  - ansible.ovpnproxy
 
   vars:
     ovpn_port: 1194
