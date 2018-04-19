@@ -27,7 +27,7 @@ Assume you have proper VPS with public `IP-address` and `root` SSH-access (by pa
 * Password: `root` password
 
 #### Setup server
-1. Open WinSCP terminal (Ctrl+T). Also you can use (PuTTY)[https://www.putty.org/] to execute commands instead WinSCP terminal.
+1. Open WinSCP terminal (Ctrl+T). Also you can use [PuTTY](https://www.putty.org/) for execute commands instead WinSCP terminal.
 2. Install Ansible and Git on VPS (Enter command):
 ```
 yum -y install epel-release
