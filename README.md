@@ -41,7 +41,7 @@ ansible-pull -U https://github.com/sukhoykin/ansible.ovpnproxy.git
 
 #### Setup client
 1. Install [OpenVPN-client](https://openvpn.net/index.php/open-source/downloads.html).
-2. Using WinSCP copy client config `ovpnproxy.ovpn` (select and press Ctrl+C) to `C:\Program Files (x86)\OpenVPN\config`.
+2. Copy client config `ovpnproxy.ovpn` (select and press Ctrl+C) to `C:\Program Files (x86)\OpenVPN\config`.
 3. Run OpenVPN GUI.
 4. Connect to VPN (Right click on tray icon -> `ovpnproxy` -> Connect).
 
