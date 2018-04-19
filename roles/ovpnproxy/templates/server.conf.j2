@@ -142,7 +142,7 @@ ifconfig-pool-persist ipp.txt
 ;push "route 192.168.20.0 255.255.255.0"
 push "route 8.8.8.8 255.255.255.255"
 push "route 8.8.4.4 255.255.255.255"
-{% for dest in ovpn_proxy_pool %}
+{% for dest in ovpn_service_pool %}
 push "route {{dest}}"
 {% endfor %}
 
@@ -194,7 +194,9 @@ push "route {{dest}}"
 # (The OpenVPN server machine may need to NAT
 # or bridge the TUN/TAP interface to the internet
 # in order for this to work properly).
-;push "redirect-gateway def1 bypass-dhcp"
+{% if ovpn_services | length == 0 %}
+push "redirect-gateway def1 bypass-dhcp"
+{% endif %}
 
 # Certain Windows-specific network settings
 # can be pushed to clients, such as DNS

@@ -5,6 +5,15 @@
   args:
     creates: "{{ovpn_pkidir}}/private/server.key"
 
+- name: Load service pool
+  include_vars: "{{ item }}.yml"
+  with_items: "{{ ovpn_services }}"
+
+- name: Build service pool
+  set_fact:
+    ovpn_service_pool: "{{ ovpn_service_pool }} + ovpn_service_{{item}}"
+  with_items: "{{ ovpn_services }}"
+
 - name: Configure server
   template:
     src: server.conf.j2

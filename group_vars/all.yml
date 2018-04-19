@@ -1,0 +1,6 @@
+---
+
+ovpn_services:
+  - telegram
+  - linkedin
+  - rutracker

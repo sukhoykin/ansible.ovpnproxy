@@ -1,31 +1,15 @@
 ---
 
+ovpn_services: []
+
 ovpn_port: 1194
 ovpn_proto: udp
 ovpn_subnet: 10.8.0.0 255.255.255.0
 
-ovpn_req_cn:  "example.com"
-ovpn_req_country:  "US"
+ovpn_req_cn: "example.com"
+ovpn_req_country: "US"
 ovpn_req_province: "California"
 ovpn_req_city: "Beverly Hills"
 ovpn_req_org: "ACME CORPORATION"
 ovpn_req_email: "user@example.com"
 ovpn_req_ou: "Anvil Department"
-
-ovpn_proxy_pool:
-  # rutracker
-  - 195.82.146.214 255.255.255.255
-  - 195.82.146.114 255.255.255.255
-  # telegram
-  - 149.154.167.99 255.255.255.255
-  - 149.154.167.118 255.255.255.255
-  - 149.154.160.0 255.255.240.0
-  - 149.154.164.0 255.255.252.0
-  - 91.108.4.0 255.255.252.0
-  - 91.108.56.0 255.255.252.0
-  - 91.108.8.0 255.255.252.0
-  - 149.154.168.0 255.255.252.0
-  - 91.108.16.0 255.255.252.0
-  - 91.108.56.0 255.255.254.0
-  # linkedin
-  - 108.174.10.10 255.255.255.255

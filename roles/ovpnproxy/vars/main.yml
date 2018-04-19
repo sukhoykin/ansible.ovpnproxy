@@ -4,3 +4,5 @@ ovpn_etcdir: /etc/openvpn
 ovpn_pkidir: "{{ovpn_etcdir}}/pki"
 ovpn_easyrsa_dir: "{{ovpn_etcdir}}/easy-rsa"
 ovpn_easyrsa: "{{ovpn_easyrsa_dir}}/easyrsa"
+
+ovpn_service_pool: []

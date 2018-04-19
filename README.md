@@ -76,11 +76,9 @@ $ sudo systemctl enable openvpn@ovpnproxy
 $ sudo systemctl start openvpn@ovpnproxy
 ```
 
-## Customization
-1. Install Ansible and Git on remote control machine or VPS (if not installed yet):
+## Settings
+1. Install Ansible and Git on VPS or control machine:
 ```
-# yum -y install epel-release
-# yum -y update
 # yum -y install ansible git
 ```
 2. Clone repository:
@@ -88,58 +86,53 @@ $ sudo systemctl start openvpn@ovpnproxy
 $ git clone https://github.com/sukhoykin/ansible.ovpnproxy.git
 $ cd ansible.ovpnproxy
 ```
-3. Edit `site.yml` (remote control) playbook or `local.yml` (local VPS control). You can override `vars` in playbook file:
-```yaml
----
-- hosts: all
-  roles:
-  - ovpnproxy
-  vars:
-    # override vars here
-```
-4. Apply changes:
-* Run playbook remote:
-```
-$ ansible-playbook -i {vps-ip}, site.yml
-```
+3. Edit `group_vars/all.yaml` for change settings.
+4. Apply changes to OpenVPN server:
 * Run playbook local on VPS:
 ```
 $ ansible-playbook local.yml
 ```
-
-### OpenVPN settings
-```yaml
-
-  vars:
-    ovpn_port: 1194
-    ovpn_proto: udp
-    ovpn_subnet: 10.8.0.0 255.255.255.0
-    ovpn_req_cn:  "example.com"
-    ovpn_req_country:  "US"
-    ovpn_req_province: "California"
-    ovpn_req_city: "Beverly Hills"
-    ovpn_req_org: "ACME CORPORATION"
-    ovpn_req_email: "user@example.com"
-    ovpn_req_ou: "Anvil Department"
+* Run playbook remote from control machine:
+```
+$ ansible-playbook -i {vps-ip}, site.yml
 ```
 
-### Proxy IP list
-```yaml
+### Gateway mode
+In this mode all IP traffic (DNS, HTTP, any service traffic) will go through the VPN.
+1. Set `ovpn_services` list in `group_vars/all.yaml` to empty array:
+```
+ovpn_services: []
+````
+2. Apply changes.
 
-  vars:
-    ovpn_proxy_pool:
-      # rutracker
-      - 195.82.146.214 255.255.255.255
-      - 195.82.146.114 255.255.255.255
-      # telegram
-      - 149.154.167.99 255.255.255.255
-      - 149.154.167.118 255.255.255.255
-      - 149.154.160.0 255.255.240.0
-      - 149.154.164.0 255.255.252.0
-      - 91.108.4.0 255.255.252.0
-      - 91.108.56.0 255.255.252.0
-      - 91.108.8.0 255.255.252.0
-      - 149.154.168.0 255.255.252.0
-      - 91.108.16.0 255.255.252.0
-      - 91.108.56.0 255.255.254.0
+### Selective mode
+In this case you have to define a list of IP addresses for proxy through the VPN.
+1. Create file `vars/{listname}.yml`.
+2. Define `ovpn_service_{listname}` variable with IP list:
+```
+ovpn_service_{filename}:
+  - 108.174.10.10 255.255.255.255
+  - 108.174.150.0 255.255.255.0
+```
+3. Every list item is an IP address or an IP subnet in format `IP/NET MASK`.
+4. Register list name `{filename}` in `ovpn_services` list in `group_vars/all.yaml` file:
+```
+ovpn_services: [{filename}]
+```
+5. Apply changes.
+
+### OpenVPN settings
+You can override default OpenVPN settings in `group_vars/all.yaml` file. `ovpn_req_*` variables affect only in first playbook run. Default settings are:
+```
+ovpn_port: 1194
+ovpn_proto: udp
+ovpn_subnet: 10.8.0.0 255.255.255.0
+
+ovpn_req_cn: "example.com"
+ovpn_req_country: "US"
+ovpn_req_province: "California"
+ovpn_req_city: "Beverly Hills"
+ovpn_req_org: "ACME CORPORATION"
+ovpn_req_email: "user@example.com"
+ovpn_req_ou: "Anvil Department"
 ```
