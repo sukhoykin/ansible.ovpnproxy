@@ -20,7 +20,7 @@ Assume you have proper VPS with public `IP-address` and `root` SSH-access (by pa
 
 ### Windows
 1. Install [WinSCP](https://winscp.net/eng/download.php) SCP-client.
-2. Run WinSCP as `Administrator` (Right click -> Run as Administrator).
+2. Run WinSCP as Administrator (Right click -> Run as Administrator).
 3. Login to VPS:
 * Host Name: VPS `IP-address`
 * Login: `root`
