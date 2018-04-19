@@ -3,5 +3,3 @@
   connection: local
   roles:
   - ovpnproxy
-  vars:
-    ovpn_client_conf_dest: "~/"
