@@ -1,5 +1,7 @@
 ---
 
+ovpn_subnet: 10.42.0.0 255.255.255.0
+
 ovpn_services:
   - telegram
   - linkedin

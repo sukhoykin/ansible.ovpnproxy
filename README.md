@@ -5,7 +5,7 @@ Ansible role to install OpenVPN on your VPS for certain list of prohibited IPs.
 * Install and configure OpenVPN
 * Generate client configuration
 * Use Google DNS
-* Proxy traffic from defined IP list
+* Selective service proxy from defined IP list
 * Support Windows, Linux and MacOS
 
 ## Requirements
@@ -97,14 +97,6 @@ $ ansible-playbook local.yml
 $ ansible-playbook -i {vps-ip}, site.yml
 ```
 
-### Gateway mode
-In this mode all IP traffic (DNS, HTTP, any service traffic) will go through the VPN.
-1. Set `ovpn_services` list in `group_vars/all.yaml` to empty array:
-```
-ovpn_services: []
-````
-2. Apply changes.
-
 ### Selective mode
 In this case you have to define a list of IP addresses for proxy through the VPN.
 1. Create file `vars/{listname}.yml`.
@@ -115,18 +107,26 @@ ovpn_service_{filename}:
   - 108.174.150.0 255.255.255.0
 ```
 3. Every list item is an IP address or an IP subnet in format `IP/NET MASK`.
-4. Register list name `{filename}` in `ovpn_services` list in `group_vars/all.yaml` file:
+4. Register list name `{filename}` in `ovpn_services` variable of `group_vars/all.yaml` file:
 ```
 ovpn_services: [{filename}]
 ```
 5. Apply changes.
+
+### Gateway mode
+In this mode all IP traffic (DNS, HTTP, any service traffic) will go through the VPN.
+1. Set `ovpn_services` list in `group_vars/all.yaml` to empty array:
+```
+ovpn_services: []
+````
+2. Apply changes.
 
 ### OpenVPN settings
 You can override default OpenVPN settings in `group_vars/all.yaml` file. `ovpn_req_*` variables affect only in first playbook run. Default settings are:
 ```
 ovpn_port: 1194
 ovpn_proto: udp
-ovpn_subnet: 10.8.0.0 255.255.255.0
+ovpn_subnet: 10.42.0.0 255.255.255.0
 
 ovpn_req_cn: "example.com"
 ovpn_req_country: "US"
