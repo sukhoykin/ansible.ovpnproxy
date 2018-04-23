@@ -86,30 +86,30 @@ $ sudo systemctl start openvpn@ovpnproxy
 $ git clone https://github.com/sukhoykin/ansible.ovpnproxy.git
 $ cd ansible.ovpnproxy
 ```
-3. Edit `group_vars/all.yaml` for change settings.
-4. Apply changes to OpenVPN server:
-* Run playbook local on VPS:
+3. Edit `group_vars/all.yaml` for change settings (see options below) or services `vars/*.yml` files for tune selective mode.
+4. Apply changes to OpenVPN server, either:
+* run playbook local on VPS:
 ```
 $ ansible-playbook local.yml
 ```
-* Run playbook remote from control machine:
+* run playbook remote from control machine:
 ```
 $ ansible-playbook -i {vps-ip}, site.yml
 ```
 
 ### Selective mode
-In this case you have to define a list of IP addresses for proxy through the VPN.
-1. Create file `vars/{listname}.yml`.
-2. Define `ovpn_service_{listname}` variable with IP list:
+In this case you define a list of services (IP addresses) that will be accessed through the VPN.
+1. Create file for list of service IPs `vars/{service}.yml`.
+2. Define list variable `ovpn_service_{service}` and fill it with IPs:
 ```
-ovpn_service_{filename}:
+ovpn_service_{service}:
   - 108.174.10.10 255.255.255.255
   - 108.174.150.0 255.255.255.0
 ```
-3. Every list item is an IP address or an IP subnet in format `IP/NET MASK`.
-4. Register list name `{filename}` in `ovpn_services` variable of `group_vars/all.yaml` file:
+3. Every list item is an IP subnet in format `IP/NET MASK`.
+4. Register service name `{service}` in `ovpn_services` variable of `group_vars/all.yaml` file:
 ```
-ovpn_services: [{filename}]
+ovpn_services: [linkedin, {service}]
 ```
 5. Apply changes.
 
